@@ -1,14 +1,12 @@
 package com.hicham.stockmanagment.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Data
+@Builder
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
