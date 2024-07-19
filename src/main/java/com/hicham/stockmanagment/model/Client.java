@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
