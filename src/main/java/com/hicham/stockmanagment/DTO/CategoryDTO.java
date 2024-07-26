@@ -21,6 +21,7 @@ public class CategoryDTO {
     @JsonIgnore
     private List<ArticleDTO> articles;
 
+    // CATEGORY TO CATEGORYDTO
     public CategoryDTO fromEntity(Category category){
         if(category==null){
             return null;
@@ -32,6 +33,16 @@ public class CategoryDTO {
                 .CategoryDesignation(category.getCategoryDesignation())
                 .build();
     }
-}
 
+    public Category toEntity(CategoryDTO categoryDTO){
+        if (categoryDTO==null){
+            return null;
+        }
+        return Category.builder()
+                .categoryCode(categoryDTO.getCategoryCode())
+                .CategoryDesignation(categoryDTO.getCategoryDesignation())
+                .build();
+    }
+}
+  
 
