@@ -1,5 +1,6 @@
 package com.hicham.stockmanagment.DTO;
 
+import com.hicham.stockmanagment.model.Article;
 import com.hicham.stockmanagment.model.Category;
 import jakarta.persistence.Column;
 import jakarta.persistence.JoinColumn;
@@ -23,4 +24,28 @@ public class ArticleDTO {
     private String pictureUrl;
 
     private CategoryDTO categoryDTO;
+
+    public static ArticleDTO fromEntity(Article article){
+        if(article==null){
+            return null;
+        }
+        return ArticleDTO.builder()
+                .id(article.getId())
+                .articleCode(article.getArticleCode())
+                .articleDesignation(article.getArticleDesignation())
+                .unitPrice(article.getUnitPrice())
+                .categoryDTO(CategoryDTO.fromEntity(article.getCategory()))
+                .build();
+    }
+
+    public static Article toEntity(ArticleDTO articleDTO){
+
+        return Article.builder()
+                .articleCode(articleDTO.getArticleCode())
+                .articleDesignation(articleDTO.getArticleDesignation())
+                .unitPrice(articleDTO.getUnitPrice())
+                .category(CategoryDTO.toEntity(articleDTO.getCategoryDTO()))
+                .build();
+
+    }
 }

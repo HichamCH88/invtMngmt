@@ -10,6 +10,7 @@ import lombok.*;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name="ClientOrderLine")

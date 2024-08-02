@@ -3,7 +3,9 @@ package com.hicham.stockmanagment.exception;
 public enum ErrorCode {
 
     ARTICLE_NOT_Found(1000),
+    ARTICLE_NOT_Valid(1001),
     CATEGORY_NOT_Found(2000),
+    CATEGORY_NOT_VALID(2001),
     CLIENT_NOT_Found(3000),
     CLIENTORDER_NOT_Found(4000),
     CLIENTORDERLINE_NOT_Found(5000),

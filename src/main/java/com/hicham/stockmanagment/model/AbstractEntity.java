@@ -3,6 +3,8 @@ package com.hicham.stockmanagment.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -21,12 +23,12 @@ public class AbstractEntity implements Serializable {
     @GeneratedValue
     private Integer id;
 
-    @CreatedDate
+    @CreationTimestamp
     @Column(name="CreationDate",nullable = false)
     @JsonIgnore
     private Instant creationDate;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     @Column(name="LastModifiedDate")
     @JsonIgnore
     private Instant lastUpdateDate;
