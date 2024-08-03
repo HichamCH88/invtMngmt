@@ -7,13 +7,12 @@ import java.util.List;
 public interface ClientService {
     ClientDTO save(ClientDTO clientDTO);
 
-    ClientDTO findById(ClientDTO clientDTO);
+    ClientDTO findById(Integer id);
 
-    ClientDTO findByCode(ClientDTO clientDTO);
 
     ClientDTO update(ClientDTO clientDTO);
 
-    List<ClientService> findAll();
+    List<ClientDTO> findAll();
 
     void delete(Integer id);
 

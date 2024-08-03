@@ -2,8 +2,10 @@ package com.hicham.stockmanagment.services.imp;
 
 import com.hicham.stockmanagment.DTO.ArticleDTO;
 import com.hicham.stockmanagment.DTO.ClientDTO;
+import com.hicham.stockmanagment.exception.EntityNotFoundException;
 import com.hicham.stockmanagment.exception.ErrorCode;
 import com.hicham.stockmanagment.exception.InvalidEntityException;
+import com.hicham.stockmanagment.model.Client;
 import com.hicham.stockmanagment.repository.ClientRepository;
 import com.hicham.stockmanagment.services.ClientService;
 import com.hicham.stockmanagment.validator.ClientValidator;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClientServiceImp implements ClientService {
@@ -36,14 +39,16 @@ public class ClientServiceImp implements ClientService {
     }
 
     @Override
-    public ClientDTO findById(ClientDTO clientDTO) {
-        return null;
+    public ClientDTO findById(Integer id) {
+        if(id==null){
+            log.error("null");
+            throw new InvalidEntityException("invalid");
+        }
+        Optional<Client> client=clientRepository.findById(id);
+        return Optional.ofNullable(ClientDTO.fromEntity(client.orElse(null))).orElseThrow(() ->
+                new EntityNotFoundException("Client not found",ErrorCode.CLIENT_NOT_Found));
     }
 
-    @Override
-    public ClientDTO findByCode(ClientDTO clientDTO) {
-        return null;
-    }
 
     @Override
     public ClientDTO update(ClientDTO clientDTO) {
@@ -51,12 +56,17 @@ public class ClientServiceImp implements ClientService {
     }
 
     @Override
-    public List<ClientService> findAll() {
-        return List.of();
+    public List<ClientDTO> findAll() {
+        clientRepository.findAll().forEach(System.out::println);
+        return clientRepository.findAll().stream().map(ClientDTO::fromEntity).toList();
     }
 
     @Override
     public void delete(Integer id) {
-
+        if(id==null){
+            log.error("Id is null");
+            throw new InvalidEntityException("Id cant be null");
+        }
+        clientRepository.deleteById(id);
     }
 }
