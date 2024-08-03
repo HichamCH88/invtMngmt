@@ -3,7 +3,6 @@ package com.hicham.stockmanagment.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class Client extends AbstractEntity{
     private String lastName;
 
     @Embedded
-    private address address;
+    private Address address;
 
     @Column(name = "email")
     private String email;

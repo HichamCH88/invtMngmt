@@ -13,6 +13,7 @@ public class CategoryController implements CategoryApi {
 
     CategoryService categoryService ;
 
+    @Autowired
     public CategoryController(CategoryService categoryService){
         this.categoryService=categoryService;
     }

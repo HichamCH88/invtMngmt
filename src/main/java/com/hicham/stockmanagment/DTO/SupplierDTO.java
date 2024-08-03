@@ -1,10 +1,6 @@
 package com.hicham.stockmanagment.DTO;
 
 import com.hicham.stockmanagment.model.SupplierOrder;
-import com.hicham.stockmanagment.model.address;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Data;
 

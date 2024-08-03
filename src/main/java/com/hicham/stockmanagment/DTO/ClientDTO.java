@@ -1,10 +1,7 @@
 package com.hicham.stockmanagment.DTO;
 
+import com.hicham.stockmanagment.model.Client;
 import com.hicham.stockmanagment.model.ClientOrder;
-import com.hicham.stockmanagment.model.address;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Data;
 
@@ -29,4 +26,29 @@ public class ClientDTO {
 
 
     private List<ClientOrder> clientOrders;
+
+    public static ClientDTO fromEntity(Client client){
+        if (client==null){
+            return null;
+        }
+        return ClientDTO.builder()
+                .id(client.getId())
+                .firstName(client.getFirstName())
+                .lastName(client.getLastName())
+                .address(AddressDTO.fromEntity(client.getAddress()))
+                .phoneNum(client.getPhoneNum())
+                .build();
+    }
+
+    public static Client toEntity(ClientDTO dto){
+        if (dto==null){
+            return null;
+        }
+        return Client.builder()
+                .firstName(dto.getFirstName())
+                .lastName(dto.getLastName())
+                .address(AddressDTO.toEntity(dto.getAddress()))
+                .phoneNum(dto.getPhoneNum())
+                .build();
+    }
 }
