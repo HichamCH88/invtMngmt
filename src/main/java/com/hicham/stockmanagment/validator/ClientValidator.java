@@ -14,6 +14,15 @@ public class ClientValidator {
         if(!StringUtils.hasLength(clientDTO.getFirstName())){
             errors.add("Please entre Client firstName");
         }
+        if(!StringUtils.hasLength(clientDTO.getLastName())){
+            errors.add("Please entre Client lastName");
+        }
+        if(!StringUtils.hasLength(clientDTO.getEmail())){
+            errors.add("Please entre Client email");
+        }
+        if(!StringUtils.hasLength(clientDTO.getPhoneNum())){
+            errors.add("Please entre Client phone number");
+        }
         return errors;
     }
 }

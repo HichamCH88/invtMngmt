@@ -14,6 +14,10 @@ public class CategoryValidator {
         if ( categoryDTO==null||!StringUtils.hasLength(categoryDTO.getCategoryCode())){
             errors.add("Category code must be inserted");
         }
+        if ( categoryDTO==null||!StringUtils.hasLength(categoryDTO.getCategoryDesignation())){
+            errors.add("Category Designation must be inserted");
+        }
+
         return errors;
     }
 }

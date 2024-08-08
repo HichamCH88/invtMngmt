@@ -1,0 +1,22 @@
+package com.hicham.stockmanagment.services;
+
+import com.hicham.stockmanagment.DTO.ClientOrderDTO;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public interface ClientOrderService {
+
+    ClientOrderDTO save(ClientOrderDTO clientOrderDTO);
+
+    List<ClientOrderDTO> findAll();
+
+    ClientOrderDTO findById(Integer id);
+
+    ClientOrderDTO findByCode(String code);
+
+    void deleteById(Integer id);
+
+
+}
