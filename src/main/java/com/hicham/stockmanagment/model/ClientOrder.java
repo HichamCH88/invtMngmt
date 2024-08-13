@@ -1,6 +1,7 @@
 package com.hicham.stockmanagment.model;
 
 
+import com.hicham.stockmanagment.model.Enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,9 @@ public class ClientOrder extends AbstractEntity{
 
     @Column(name="orderDate")
     private Instant orderDate;
+
+    @Column(name="Status")
+    private OrderStatus status;
 
     @ManyToOne
     @JoinColumn(name = "clientId")

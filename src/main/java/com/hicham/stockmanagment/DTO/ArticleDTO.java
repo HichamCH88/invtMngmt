@@ -40,12 +40,14 @@ public class ArticleDTO {
 
     public static Article toEntity(ArticleDTO articleDTO){
 
-        return Article.builder()
+        Article article= Article.builder()
                 .articleCode(articleDTO.getArticleCode())
                 .articleDesignation(articleDTO.getArticleDesignation())
                 .unitPrice(articleDTO.getUnitPrice())
                 .category(CategoryDTO.toEntity(articleDTO.getCategoryDTO()))
                 .build();
+        article.setId(articleDTO.getId());
+        return article;
 
     }
 }

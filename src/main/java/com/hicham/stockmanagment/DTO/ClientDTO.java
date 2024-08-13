@@ -1,5 +1,6 @@
 package com.hicham.stockmanagment.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hicham.stockmanagment.model.Client;
 import com.hicham.stockmanagment.model.ClientOrder;
 import lombok.Builder;
@@ -14,17 +15,15 @@ public class ClientDTO {
 
     private String firstName;
 
-
     private String lastName;
 
     private AddressDTO address;
 
     private String email;
 
-
     private String phoneNum;
 
-
+    @JsonIgnore
     private List<ClientOrder> clientOrders;
 
     public static ClientDTO fromEntity(Client client){
@@ -44,11 +43,13 @@ public class ClientDTO {
         if (dto==null){
             return null;
         }
-        return Client.builder()
+        Client client= Client.builder()
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .address(AddressDTO.toEntity(dto.getAddress()))
                 .phoneNum(dto.getPhoneNum())
                 .build();
+        client.setId(dto.getId());
+        return client;
     }
 }

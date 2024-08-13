@@ -1,9 +1,6 @@
 package com.hicham.stockmanagment.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
@@ -23,7 +20,7 @@ public class Category extends AbstractEntity {
     @Column(name="Designation")
     private String CategoryDesignation;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Article> Articles;
 
 }

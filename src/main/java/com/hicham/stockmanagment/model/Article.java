@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
@@ -26,9 +27,14 @@ public class Article extends AbstractEntity{
     @Column(name="pictureUrl")
     private String pictureUrl;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId")
     private Category category;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Inventory inventory;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "article")
+    private List<InventoryTransaction> inventoryTransactions;
 
 }

@@ -21,7 +21,7 @@ public class AbstractEntity implements Serializable {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    public Integer id;
 
     @CreationTimestamp
     @Column(name="CreationDate",nullable = false)

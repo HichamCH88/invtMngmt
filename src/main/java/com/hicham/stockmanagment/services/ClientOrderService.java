@@ -1,6 +1,7 @@
 package com.hicham.stockmanagment.services;
 
 import com.hicham.stockmanagment.DTO.ClientOrderDTO;
+import com.hicham.stockmanagment.DTO.ClientOrderLineDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface ClientOrderService {
     ClientOrderDTO findByCode(String code);
 
     void deleteById(Integer id);
+
+    List<ClientOrderLineDTO> findByOrderId(Integer clientOrderId);
 
 
 }

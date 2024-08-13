@@ -37,10 +37,12 @@ public class CategoryDTO {
         if (categoryDTO==null){
             return null;
         }
-        return Category.builder()
+        Category category= Category.builder()
                 .categoryCode(categoryDTO.getCategoryCode())
                 .CategoryDesignation(categoryDTO.getCategoryDesignation())
                 .build();
+        category.setId(categoryDTO.getId());
+        return category;
     }
 }
   

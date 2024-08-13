@@ -1,12 +1,16 @@
 package com.hicham.stockmanagment.controller;
 
 import com.hicham.stockmanagment.DTO.ClientOrderDTO;
+import com.hicham.stockmanagment.DTO.ClientOrderLineDTO;
 import com.hicham.stockmanagment.controller.api.ClientOrderApi;
 import com.hicham.stockmanagment.services.ClientOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RestController
 public class ClientOrderController implements ClientOrderApi {
 
     ClientOrderService clientOrderService;
@@ -39,5 +43,11 @@ public class ClientOrderController implements ClientOrderApi {
     @Override
     public void deleteById(Integer id) {
         clientOrderService.deleteById(id);
+    }
+
+    @Override
+    public List<ClientOrderLineDTO> findByOrderId(Integer clientOrderId) {
+        System.out.println(clientOrderId);
+        return clientOrderService.findByOrderId(clientOrderId);
     }
 }

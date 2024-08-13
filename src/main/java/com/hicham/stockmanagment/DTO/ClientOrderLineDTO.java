@@ -1,5 +1,6 @@
 package com.hicham.stockmanagment.DTO;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hicham.stockmanagment.model.Article;
 import com.hicham.stockmanagment.model.ClientOrder;
 import com.hicham.stockmanagment.model.ClientOrderLine;
@@ -18,6 +19,7 @@ public class ClientOrderLineDTO {
 
     private ArticleDTO article;
 
+    @JsonIgnore
     private ClientOrderDTO clientOrder;
 
     private BigDecimal unitePrice;
