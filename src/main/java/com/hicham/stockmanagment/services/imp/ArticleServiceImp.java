@@ -25,7 +25,7 @@ public class ArticleServiceImp implements ArticleService {
 
     private ArticleRepository articleRepository;
 
-    @Autowired
+    @Autowired//
     public ArticleServiceImp(ArticleRepository articleRepository)
         {
             this.articleRepository=articleRepository;
@@ -33,16 +33,20 @@ public class ArticleServiceImp implements ArticleService {
 
     @Override
     public ArticleDTO save(ArticleDTO dto) {
+        //check if articleDTO is valid and not null
         List<String> errors= ArticleValidator.validate(dto);
+
         if(!errors.isEmpty()){
             log.error("Article not valid {}",dto);
             errors.forEach(System.out::println);
             throw new InvalidEntityException("This article is invalid", ErrorCode.ARTICLE_NOT_Valid,errors);
 
         }
+        //check if article code exist(article code must be unique)
         if(articleRepository.findByArticleCode(dto.getArticleCode())!=null){
             throw new InvalidEntityException("Article with this code already exist");
         }
+        //save article to database
         return ArticleDTO.fromEntity(articleRepository.save(ArticleDTO.toEntity(dto)));
     }
 
@@ -52,10 +56,16 @@ public class ArticleServiceImp implements ArticleService {
             log.error("article id is null");
             return null;
         }
+        //get article (id) from the database
         Optional<Article> article=articleRepository.findById(id);
+        //if result is null/does not exist throw exception
+        if(article.isEmpty()){
+            log.warn("Article not found");
+            throw  new EntityNotFoundException("Article with id:"+id+"not found",ErrorCode.ARTICLE_NOT_Found);
+        }
 
-        return Optional.ofNullable(ArticleDTO.fromEntity(article.orElse(null))).orElseThrow(() ->
-                new EntityNotFoundException("Article with id:"+id+"not found",ErrorCode.ARTICLE_NOT_Found));
+        return ArticleDTO.fromEntity(article.get());
+
     }
 
     @Override
@@ -65,8 +75,11 @@ public class ArticleServiceImp implements ArticleService {
             return null;
         }
         Article article=articleRepository.findByArticleCode(articleCode);
-        return Optional.ofNullable(ArticleDTO.fromEntity(article)).orElseThrow(()->
-                new EntityNotFoundException("Article with Code:"+articleCode+"not found",ErrorCode.ARTICLE_NOT_Found));
+        if(article==null){
+            log.warn("Article does not exist");
+            throw  new EntityNotFoundException("Article with code:"+articleCode+"not found",ErrorCode.ARTICLE_NOT_Found);
+        }
+        return ArticleDTO.fromEntity(article);
 
     }
 

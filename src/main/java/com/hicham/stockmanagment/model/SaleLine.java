@@ -19,6 +19,14 @@ public class SaleLine extends AbstractEntity {
     @JoinColumn(name = "saleId")
     private Sale sale;
 
+    @ManyToOne
+    @JoinColumn(name="articleId")
+    private Article article;
+
     @Column(name = "quantity")
     private BigDecimal quantity;
+
+    @Column(name="sellingPrice")
+    private BigDecimal sellingPrice;
+
 }

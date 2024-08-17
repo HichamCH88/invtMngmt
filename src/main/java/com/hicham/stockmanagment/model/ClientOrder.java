@@ -24,7 +24,7 @@ public class ClientOrder extends AbstractEntity{
     private Instant orderDate;
 
     @Column(name="Status")
-    private OrderStatus status;
+    private OrderStatus status=OrderStatus.onHold;
 
     @ManyToOne
     @JoinColumn(name = "clientId")

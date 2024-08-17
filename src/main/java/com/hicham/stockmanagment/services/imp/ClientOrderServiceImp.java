@@ -25,6 +25,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+//this service has business logic of clientOrder and ClientOrderLines and transactions
 @Service
 public class ClientOrderServiceImp implements ClientOrderService {
     private static final Logger log = LoggerFactory.getLogger(ClientOrderServiceImp.class);
@@ -56,12 +57,11 @@ public class ClientOrderServiceImp implements ClientOrderService {
     @Override
     public ClientOrderDTO save(ClientOrderDTO clientOrderDTO) {
 
-    //checks Client order Validation (null, client not found) TODO !! check if OrderCode is unique
+    //checks Client order Validation (null or client not found) TODO !! check if OrderCode is unique
         if(clientOrderDTO ==null){
             log.error("client order is null");
             throw new InvalidEntityException("client order is null");
         }
-
         Optional<Client> client=clientRepository.findById(clientOrderDTO.getClient().getId());
         if(client.isEmpty()){
             log.error("Client does not exist");
@@ -71,7 +71,7 @@ public class ClientOrderServiceImp implements ClientOrderService {
     //finalization and setting Client Order
         clientOrderDTO.setClient(ClientDTO.fromEntity(client.get()));
         clientOrderDTO.setOrderDate(Instant.now());
-        clientOrderDTO.setStatus(OrderStatus.Unpaid);//default status depends on frontEnd
+        clientOrderDTO.setStatus(OrderStatus.onHold);//default value for testing TODO!!remove this line
         ClientOrderDTO savedOrder =ClientOrderDTO.fromEntity(clientOrderRepository.save(ClientOrderDTO.toEntity(clientOrderDTO)));
 
      //Inserting Client order lines to database
@@ -83,7 +83,7 @@ public class ClientOrderServiceImp implements ClientOrderService {
                 }
                     CltOrderLn.setClientOrder(savedOrder);
                     clientOrderLineRepository.save(ClientOrderLineDTO.toEntity(CltOrderLn));
-                    //TODO save new transaction (type="clientOrder",quantity="CltOrderLn.getQuantity") and Update inventory quantity!
+                    //done!!TODO save new transaction (type="clientOrder",quantity="CltOrderLn.getQuantity") and Update inventory quantity!
                     createTransaction(CltOrderLn);
             });
         }
@@ -127,7 +127,14 @@ public class ClientOrderServiceImp implements ClientOrderService {
 
     @Override
     public void deleteById(Integer id) {
-        clientOrderRepository.findById(id).get().getClientOrderLines().forEach(clientOrderLineRepository::delete);
+        if(id==null){
+            throw new EntityNotFoundException("Client order dont exist");
+        }
+        Optional<ClientOrder> order=clientOrderRepository.findById(id);
+        if(order.isEmpty()){
+            throw new EntityNotFoundException("Client order dont exist");
+        }
+        order.get().getClientOrderLines().forEach(clientOrderLineRepository::delete);
         clientOrderRepository.deleteById(id);
     }
 

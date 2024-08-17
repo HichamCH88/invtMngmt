@@ -55,14 +55,14 @@ public class InventoryTransactionServiceImp implements InventoryTransactionServi
         return null;
     }
 
+    //outTransaction is called when we sell an article (clientOrders or normal Sales)
     @Override
     public InventoryTransactionDTO outTransaction(InventoryTransactionDTO dto) {
         if(dto==null){
             log.error("Invalid transaction");
             throw new InvalidEntityException("Invalid transaction");
         }
-        updateInventoryQTY(dto.getArticle().getId(),dto.getQuantity());
-        System.out.println(dto.getArticle().getId());
+        updateInventoryQTY(dto.getArticle().getId(),-dto.getQuantity());
         return InventoryTransactionDTO.fromEntity(invMvRepository.save(InventoryTransactionDTO.toEntity(dto)));
     }
 

@@ -20,5 +20,5 @@ public class Inventory extends AbstractEntity{
     private Article article;
 
     @Column(name = "quantity")
-    private Integer quantity;
+    private Integer quantity=0;
 }

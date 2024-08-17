@@ -14,11 +14,8 @@ import java.util.List;
 @Table(name="Supplier")
 public class Supplier extends AbstractEntity{
 
-    @Column(name = "firstName")
-    private String firstName;
-
-    @Column(name = "lastName")
-    private String lastName;
+    @Column(name = "Name")
+    private String Name;
 
     @Embedded
     private Address address;
@@ -26,7 +23,7 @@ public class Supplier extends AbstractEntity{
     @Column(name = "email")
     private String email;
 
-    @Column(name = "phoneNumbre")
+    @Column(name = "phoneNumber")
     private String phoneNum;
 
     @OneToMany(mappedBy = "supplier")

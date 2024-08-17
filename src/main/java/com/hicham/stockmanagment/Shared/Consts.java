@@ -1,6 +1,6 @@
 package com.hicham.stockmanagment.Shared;
 
-public enum Consts {
+public interface Consts {
 
-    APP_ROOT();
+    String APP_ROOT ="stockmanagment/v0";
 }

@@ -15,14 +15,18 @@ import java.util.List;
 @Entity
 @Table(name="Article")
 public class Article extends AbstractEntity{
+
     @Column(name="Code")
     private String articleCode;
 
     @Column(name="Designation")
     private String articleDesignation;
 
-    @Column(name="unitePrice")
-    private BigDecimal unitPrice;
+    @Column(name="buyPrice")
+    private BigDecimal buyPrice;
+
+    @Column(name="detailPrice")
+    private BigDecimal detailPrice=BigDecimal.valueOf(0.0);
 
     @Column(name="pictureUrl")
     private String pictureUrl;
@@ -36,5 +40,14 @@ public class Article extends AbstractEntity{
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "article")
     private List<InventoryTransaction> inventoryTransactions;
+
+    @OneToMany(mappedBy = "article")
+    private List<ClientOrderLine> clientOrderLines;
+
+    @OneToMany(mappedBy = "article")
+    private List<SupplierOrderLine> supplierOrderLines;
+
+    @OneToMany(mappedBy = "article")
+    private List<SaleLine> saleLines;
 
 }

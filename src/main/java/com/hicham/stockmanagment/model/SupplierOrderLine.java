@@ -1,10 +1,9 @@
 package com.hicham.stockmanagment.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.math.BigDecimal;
 
 @Data
 @Builder
@@ -22,4 +21,11 @@ public class SupplierOrderLine extends AbstractEntity {
     @ManyToOne
     @JoinColumn(name="supplierOrderId")
     private SupplierOrder supplierOrder;
+
+    @Column(name="quantity")
+    private Integer quantity;
+
+    @Column(name ="buyingPrice")
+    private BigDecimal buyingPrice=BigDecimal.valueOf(0.0);
+
 }
