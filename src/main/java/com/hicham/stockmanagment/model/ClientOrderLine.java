@@ -23,7 +23,7 @@ public class ClientOrderLine extends AbstractEntity {
     @JoinColumn(name="clientOrderId")
     private ClientOrder clientOrder;
 
-    @Column(name="unitePrice")
+    @Column(name="sellingPrice")
     private BigDecimal sellingPrice;
 
     @Column(name="quantity")

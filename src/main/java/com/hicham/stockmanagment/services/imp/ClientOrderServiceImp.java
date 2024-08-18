@@ -57,7 +57,7 @@ public class ClientOrderServiceImp implements ClientOrderService {
     @Override
     public ClientOrderDTO save(ClientOrderDTO clientOrderDTO) {
 
-    //checks Client order Validation (null or client not found) TODO !! check if OrderCode is unique
+    //checks Client order Validation (null or client not found) TODO !! check if OrderCode is unique and if client id is null
         if(clientOrderDTO ==null){
             log.error("client order is null");
             throw new InvalidEntityException("client order is null");

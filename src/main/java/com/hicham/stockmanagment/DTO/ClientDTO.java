@@ -35,6 +35,7 @@ public class ClientDTO {
                 .firstName(client.getFirstName())
                 .lastName(client.getLastName())
                 .address(AddressDTO.fromEntity(client.getAddress()))
+                .email(client.getEmail())
                 .phoneNum(client.getPhoneNum())
                 .build();
     }
@@ -47,6 +48,7 @@ public class ClientDTO {
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .address(AddressDTO.toEntity(dto.getAddress()))
+                .email(dto.getEmail())
                 .phoneNum(dto.getPhoneNum())
                 .build();
         client.setId(dto.getId());

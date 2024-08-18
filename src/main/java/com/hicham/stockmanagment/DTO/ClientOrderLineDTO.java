@@ -22,7 +22,7 @@ public class ClientOrderLineDTO {
     @JsonIgnore
     private ClientOrderDTO clientOrder;
 
-    private BigDecimal unitePrice;
+    private BigDecimal sellingPrice;
 
     private Integer quantity;
 
@@ -33,7 +33,7 @@ public class ClientOrderLineDTO {
                 .id(clientOrderLine.getId())
                 .article(ArticleDTO.fromEntity(clientOrderLine.getArticle()))
                 .clientOrder(ClientOrderDTO.fromEntity(clientOrderLine.getClientOrder()))
-                .unitePrice(clientOrderLine.getUnitePrice())
+                .sellingPrice(clientOrderLine.getSellingPrice())
                 .quantity(clientOrderLine.getQuantity())
                 .build();
     }
@@ -43,7 +43,7 @@ public class ClientOrderLineDTO {
         return ClientOrderLine.builder()
                 .article(ArticleDTO.toEntity(clientOrderLineDTO.getArticle()))
                 .clientOrder(ClientOrderDTO.toEntity(clientOrderLineDTO.getClientOrder()))
-                .unitePrice(clientOrderLineDTO.getUnitePrice())
+                .sellingPrice(clientOrderLineDTO.getSellingPrice())
                 .quantity(clientOrderLineDTO.getQuantity())
                 .build();
 

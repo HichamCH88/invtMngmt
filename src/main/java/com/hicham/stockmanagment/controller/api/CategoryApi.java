@@ -19,7 +19,7 @@ public interface CategoryApi {
     @GetMapping(value=Consts.APP_ROOT+"/category/all")
     List<CategoryDTO> findAllCategories();
 
-    @GetMapping(value=Consts.APP_ROOT+"/category/c{code}")
+    @GetMapping(value=Consts.APP_ROOT+"/category/c/{code}")
     CategoryDTO findCategoryByCode(@PathVariable("code") String categoryCode);
 
     @PutMapping(value =Consts.APP_ROOT+ "/category/updates",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)

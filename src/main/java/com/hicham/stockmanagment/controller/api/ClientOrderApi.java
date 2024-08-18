@@ -16,10 +16,10 @@ public interface ClientOrderApi {
     @GetMapping(value =Consts.APP_ROOT+ "/clientorder/all")
     List<ClientOrderDTO> findAll();
 
-    @GetMapping(value =Consts.APP_ROOT+ "/clientsorder/{id}")
+    @GetMapping(value =Consts.APP_ROOT+ "/clientorder/{id}")
     ClientOrderDTO findById(@PathVariable("id") Integer id);
 
-    @GetMapping(value = Consts.APP_ROOT+"/clientsorder/c{code}")
+    @GetMapping(value = Consts.APP_ROOT+"/clientorder/c/{code}")
     ClientOrderDTO findByCode(@PathVariable("code") String id);
 
     @DeleteMapping(value=Consts.APP_ROOT+ "/clientorder/{id}")

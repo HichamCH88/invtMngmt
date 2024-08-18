@@ -21,7 +21,7 @@ public class ArticleValidator {
         if(articleDTO==null||!StringUtils.hasLength(articleDTO.getArticleDesignation())){
             errors.add("Please insert the Article designation");
         }
-        if(articleDTO==null||articleDTO.getUnitPrice()==null|| articleDTO.getUnitPrice().intValue()<0){
+        if(articleDTO==null||articleDTO.getBuyPrice()==null|| articleDTO.getBuyPrice().intValue()<0){
             errors.add("unite price is invalid");
         }
         return errors;

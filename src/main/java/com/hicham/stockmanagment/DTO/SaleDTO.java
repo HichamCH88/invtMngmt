@@ -13,6 +13,7 @@ public class SaleDTO {
 
 
     private Integer id;
+
     private String code;
 
 

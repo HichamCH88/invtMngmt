@@ -10,17 +10,17 @@ import java.util.List;
 
 public interface ClientApi {
 
-    @PostMapping(value = Consts.APP_ROOT+"Client/create",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = Consts.APP_ROOT+"/Client/create",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ClientDTO save(@RequestBody ClientDTO dto );
 
-    @GetMapping(value=Consts.APP_ROOT+"Client/{id}")
+    @GetMapping(value=Consts.APP_ROOT+"/Client/{id}")
     ClientDTO findById(@PathVariable("id") Integer id);
 
 
-    @GetMapping(value = Consts.APP_ROOT+"Client/all")
+    @GetMapping(value = Consts.APP_ROOT+"/Client/all")
     List<ClientDTO> findAll();
 
-    @DeleteMapping(value =Consts.APP_ROOT+ "Client/d{id}")
+    @DeleteMapping(value =Consts.APP_ROOT+ "/Client/{id}")
     void delete(@PathVariable("id") Integer id);
 
 }

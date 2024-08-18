@@ -49,10 +49,13 @@ public class InventoryTransactionServiceImp implements InventoryTransactionServi
     }
 
     @Override
-    public InventoryTransactionDTO inTrans(InventoryTransactionDTO dto) {
-        //build transaction dto
-        //add quantities to article inventory
-        return null;
+    public InventoryTransactionDTO inTransaction(InventoryTransactionDTO dto) {
+        if(dto==null){
+            log.error("Invalid transaction");
+            throw new InvalidEntityException("Invalid transaction");
+        }
+        updateInventoryQTY(dto.getArticle().getId(),dto.getQuantity());
+        return InventoryTransactionDTO.fromEntity(invMvRepository.save(InventoryTransactionDTO.toEntity(dto)));
     }
 
     //outTransaction is called when we sell an article (clientOrders or normal Sales)

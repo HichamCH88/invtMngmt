@@ -14,7 +14,7 @@ public interface InventoryTransactionService {
 
     InventoryTransactionDTO create(InventoryTransactionDTO dto);
 
-    InventoryTransactionDTO inTrans(InventoryTransactionDTO dto);
+    InventoryTransactionDTO inTransaction(InventoryTransactionDTO dto);
 
     InventoryTransactionDTO outTransaction(InventoryTransactionDTO dto);
 

@@ -19,7 +19,9 @@ public class ArticleDTO {
 
     private String articleDesignation;
 
-    private BigDecimal unitPrice;
+    private BigDecimal buyPrice;
+
+    private BigDecimal detailPrice;
 
     private String pictureUrl;
 
@@ -33,7 +35,9 @@ public class ArticleDTO {
                 .id(article.getId())
                 .articleCode(article.getArticleCode())
                 .articleDesignation(article.getArticleDesignation())
-                .unitPrice(article.getUnitPrice())
+                .buyPrice(article.getBuyPrice())
+                .detailPrice(article.getDetailPrice())
+                .pictureUrl(article.getPictureUrl())
                 .categoryDTO(CategoryDTO.fromEntity(article.getCategory()))
                 .build();
     }
@@ -43,7 +47,9 @@ public class ArticleDTO {
         Article article= Article.builder()
                 .articleCode(articleDTO.getArticleCode())
                 .articleDesignation(articleDTO.getArticleDesignation())
-                .unitPrice(articleDTO.getUnitPrice())
+                .buyPrice(articleDTO.getBuyPrice())
+                .detailPrice(articleDTO.getDetailPrice())
+                .pictureUrl(articleDTO.getPictureUrl())
                 .category(CategoryDTO.toEntity(articleDTO.getCategoryDTO()))
                 .build();
         article.setId(articleDTO.getId());

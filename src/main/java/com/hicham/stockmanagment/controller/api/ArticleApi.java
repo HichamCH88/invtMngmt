@@ -16,7 +16,7 @@ public interface ArticleApi {
     @GetMapping(value = Consts.APP_ROOT+"/articles/{id}")
     ArticleDTO getArticleById(@PathVariable("id") int articleId);
 
-    @GetMapping(value = Consts.APP_ROOT+"/articles/c{code}")
+    @GetMapping(value = Consts.APP_ROOT+"/articles/c/{code}")
     ArticleDTO getArticleByCode(@PathVariable("code") String articleCode);
 
     @GetMapping(value = Consts.APP_ROOT+"/articles/all")
