@@ -1,9 +1,6 @@
 package com.hicham.stockmanagment.services.imp;
 
-import com.hicham.stockmanagment.DTO.ClientOrderLineDTO;
-import com.hicham.stockmanagment.DTO.InventoryTransactionDTO;
-import com.hicham.stockmanagment.DTO.SupplierOrderDTO;
-import com.hicham.stockmanagment.DTO.SupplierOrderLineDTO;
+import com.hicham.stockmanagment.DTO.*;
 import com.hicham.stockmanagment.exception.EntityNotFoundException;
 import com.hicham.stockmanagment.exception.InvalidEntityException;
 import com.hicham.stockmanagment.model.Enums.InventoryTransactionType;
@@ -13,6 +10,7 @@ import com.hicham.stockmanagment.repository.ArticleRepository;
 import com.hicham.stockmanagment.repository.SupplierOrderLineRepository;
 import com.hicham.stockmanagment.repository.SupplierOrderRepository;
 import com.hicham.stockmanagment.repository.SupplierRepository;
+import com.hicham.stockmanagment.services.ArticleService;
 import com.hicham.stockmanagment.services.InventoryTransactionService;
 import com.hicham.stockmanagment.services.SupplierOrderService;
 import org.slf4j.Logger;
@@ -31,18 +29,18 @@ public class SupplierOrderServiceImp implements SupplierOrderService {
     private SupplierRepository supplierRepository;
     private SupplierOrderRepository supplierOrderRepository;
     private SupplierOrderLineRepository supplierOrderLineRepository;
-    private ArticleRepository articleRepository;
+    private ArticleService articleService;
     private InventoryTransactionService inventoryTransactionService;
     @Autowired
     public SupplierOrderServiceImp(SupplierRepository supplierRepository,
                                    SupplierOrderRepository supplierOrderRepository,
                                    SupplierOrderLineRepository supplierOrderLineRepository,
-                                   ArticleRepository articleRepository,
+                                   ArticleService articleService,
                                    InventoryTransactionService inventoryTransactionService) {
         this.supplierRepository = supplierRepository;
         this.supplierOrderRepository = supplierOrderRepository;
         this.supplierOrderLineRepository = supplierOrderLineRepository;
-        this.articleRepository = articleRepository;
+        this.articleService = articleService;
         this.inventoryTransactionService = inventoryTransactionService;
     }
 
@@ -64,10 +62,12 @@ public class SupplierOrderServiceImp implements SupplierOrderService {
         }
         SupplierOrder savedOrder =supplierOrderRepository.save(SupplierOrderDTO.toEntity(dto));
 
-        dto.getSupplierOrderLines().forEach(solDto->{//TODO check orderLine validation
-            if(solDto.getArticle().getId()==null||articleRepository.findById(solDto.getArticle().getId()).isEmpty())
+        dto.getSupplierOrderLines().forEach(solDto->{//TODO: check orderLine validation
+            if(articleService.findById(solDto.getArticle().getId())==null)//todo: find by article code
             {
-                throw new EntityNotFoundException("Article"+solDto.getArticle().getId()+" doesnt exist");
+                //save the created article into our order line(because a new id is auto generated)
+                solDto.setArticle(articleService.saveNewArticle(solDto.getArticle(),solDto.getQuantity()));
+                log.warn("added new article"+solDto.getArticle().getArticleDesignation());
             }
             solDto.setSupplierOrder(SupplierOrderDTO.fromEntity(savedOrder));
             supplierOrderLineRepository.save(SupplierOrderLineDTO.toEntity(solDto));

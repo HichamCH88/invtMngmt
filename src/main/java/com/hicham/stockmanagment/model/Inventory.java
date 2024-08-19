@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name="Inventory")//!!if scale to multi-inventories this table become"InventoryElement" and we create new table inventory with inventory id and name and location!
 public class Inventory extends AbstractEntity{
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "articleId")
     private Article article;
 

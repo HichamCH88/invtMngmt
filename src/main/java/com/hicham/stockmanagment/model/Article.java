@@ -35,7 +35,7 @@ public class Article extends AbstractEntity{
     @JoinColumn(name = "categoryId")
     private Category category;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "article",cascade = CascadeType.ALL)
     private Inventory inventory;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "article")

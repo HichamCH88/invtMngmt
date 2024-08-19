@@ -16,4 +16,5 @@ public interface ArticleService {
 
     void delete(Integer id);
 
+    ArticleDTO saveNewArticle(ArticleDTO dto,Integer qty);
 }
