@@ -10,6 +10,10 @@ public class UserValidator {
     public static List<String> validate(UserDTO userDTO){
         List<String> errors=new ArrayList<>();
 
+        if(!StringUtils.hasLength(userDTO.getUsername())){
+            errors.add("Please insert a username");
+        }
+
         if(!StringUtils.hasLength(userDTO.getFirstName())){
             errors.add("Please insert user first name");
         }

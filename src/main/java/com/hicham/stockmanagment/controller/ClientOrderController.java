@@ -5,7 +5,6 @@ import com.hicham.stockmanagment.DTO.ClientOrderLineDTO;
 import com.hicham.stockmanagment.controller.api.ClientOrderApi;
 import com.hicham.stockmanagment.services.ClientOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -48,6 +47,11 @@ public class ClientOrderController implements ClientOrderApi {
     @Override
     public List<ClientOrderLineDTO> findByOrderId(Integer clientOrderId) {
         System.out.println(clientOrderId);
-        return clientOrderService.findByOrderId(clientOrderId);
+        return clientOrderService.findOrderLinesById(clientOrderId);
+    }
+
+    @Override
+    public List<ClientOrderDTO> findByClient(Integer id) {
+        return clientOrderService.findOrdersByClientId(id);
     }
 }

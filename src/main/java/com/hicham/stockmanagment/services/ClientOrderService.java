@@ -19,7 +19,9 @@ public interface ClientOrderService {
 
     void deleteById(Integer id);
 
-    List<ClientOrderLineDTO> findByOrderId(Integer clientOrderId);
+    List<ClientOrderLineDTO> findOrderLinesById(Integer clientOrderId);
+
+    List<ClientOrderDTO> findOrdersByClientId(Integer id);
 
 
 }

@@ -139,9 +139,15 @@ public class ClientOrderServiceImp implements ClientOrderService {
     }
 
     @Override
-    public List<ClientOrderLineDTO> findByOrderId(Integer clientOrderId) {
+    public List<ClientOrderLineDTO> findOrderLinesById(Integer clientOrderId) {
         return clientOrderLineRepository.findByClientOrderId(clientOrderId).stream().map(ClientOrderLineDTO::fromEntity).toList();
     }
+
+    @Override
+    public List<ClientOrderDTO> findOrdersByClientId(Integer id) {
+        return clientOrderRepository.findByClientId(id).stream().map(ClientOrderDTO::fromEntity).toList();
+    }
+
     public void createTransaction(ClientOrderLineDTO cltOrderLnDto){
         InventoryTransactionDTO invTransDto= InventoryTransactionDTO.builder().transactionDate(Instant.now())
                                                  .transactionSource(cltOrderLnDto.getClientOrder().getClient().getId())

@@ -7,25 +7,30 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.hicham.stockmanagment.Shared.Consts.APP_ROOT;
+
 
 public interface ClientOrderApi {
 
-    @PostMapping(value = Consts.APP_ROOT+"/clientorder/create")
+    @PostMapping(value = APP_ROOT+"/clientorder/create")
     ClientOrderDTO save(@RequestBody ClientOrderDTO clientOrderDTO);
 
-    @GetMapping(value =Consts.APP_ROOT+ "/clientorder/all")
+    @GetMapping(value = APP_ROOT+ "/clientorder/all")
     List<ClientOrderDTO> findAll();
 
-    @GetMapping(value =Consts.APP_ROOT+ "/clientorder/{id}")
+    @GetMapping(value = APP_ROOT+ "/clientorder/{id}")
     ClientOrderDTO findById(@PathVariable("id") Integer id);
 
-    @GetMapping(value = Consts.APP_ROOT+"/clientorder/c/{code}")
+    @GetMapping(value = APP_ROOT+"/clientorder/c/{code}")
     ClientOrderDTO findByCode(@PathVariable("code") String id);
 
-    @DeleteMapping(value=Consts.APP_ROOT+ "/clientorder/{id}")
+    @DeleteMapping(value= APP_ROOT+ "/clientorder/{id}")
     void deleteById(@PathVariable("id") Integer id);
 
-    @GetMapping(value = Consts.APP_ROOT+"/clientorder/order/{id}")
+    @GetMapping(value = APP_ROOT+"/clientorder/order/{id}")
     List<ClientOrderLineDTO> findByOrderId(@PathVariable("id") Integer id);
+
+    @GetMapping(value = APP_ROOT+"clientorder/client/{id}")
+    List<ClientOrderDTO> findByClient(@PathVariable("id") Integer id);
 
 }
