@@ -2,5 +2,5 @@ package com.hicham.stockmanagment.model.Enums;
 
 public enum OrderStatus {
 
-    Unpaid,Canceled,Paid,onHold,Recived;
+    Unpaid,Canceled,Paid,Rest,onHold,Recived;
 }

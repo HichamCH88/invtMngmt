@@ -3,6 +3,7 @@ package com.hicham.stockmanagment.controller.api;
 import com.hicham.stockmanagment.DTO.ClientOrderDTO;
 import com.hicham.stockmanagment.DTO.ClientOrderLineDTO;
 import com.hicham.stockmanagment.Shared.Consts;
+import com.hicham.stockmanagment.model.Enums.OrderStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,4 +34,6 @@ public interface ClientOrderApi {
     @GetMapping(value = APP_ROOT+"clientorder/client/{id}")
     List<ClientOrderDTO> findByClient(@PathVariable("id") Integer id);
 
+    @GetMapping(value = APP_ROOT+"clientorder/status/{status}")
+    List<ClientOrderDTO> findByOrderStatus(@PathVariable("status")OrderStatus status);
 }

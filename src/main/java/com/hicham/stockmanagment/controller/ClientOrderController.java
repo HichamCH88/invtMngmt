@@ -3,6 +3,7 @@ package com.hicham.stockmanagment.controller;
 import com.hicham.stockmanagment.DTO.ClientOrderDTO;
 import com.hicham.stockmanagment.DTO.ClientOrderLineDTO;
 import com.hicham.stockmanagment.controller.api.ClientOrderApi;
+import com.hicham.stockmanagment.model.Enums.OrderStatus;
 import com.hicham.stockmanagment.services.ClientOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,5 +54,10 @@ public class ClientOrderController implements ClientOrderApi {
     @Override
     public List<ClientOrderDTO> findByClient(Integer id) {
         return clientOrderService.findOrdersByClientId(id);
+    }
+
+    @Override
+    public List<ClientOrderDTO> findByOrderStatus(OrderStatus status) {
+        return this.clientOrderService.findOrdersByOrderStatus(status);
     }
 }

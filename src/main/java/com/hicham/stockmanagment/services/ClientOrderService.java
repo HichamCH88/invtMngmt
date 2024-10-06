@@ -2,6 +2,7 @@ package com.hicham.stockmanagment.services;
 
 import com.hicham.stockmanagment.DTO.ClientOrderDTO;
 import com.hicham.stockmanagment.DTO.ClientOrderLineDTO;
+import com.hicham.stockmanagment.model.Enums.OrderStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,4 +25,5 @@ public interface ClientOrderService {
     List<ClientOrderDTO> findOrdersByClientId(Integer id);
 
 
+    List<ClientOrderDTO> findOrdersByOrderStatus(OrderStatus status);
 }

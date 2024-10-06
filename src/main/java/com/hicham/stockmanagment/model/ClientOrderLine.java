@@ -26,6 +26,12 @@ public class ClientOrderLine extends AbstractEntity {
     @Column(name="sellingPrice")
     private BigDecimal sellingPrice;
 
+    @Column(name="Discount")
+    private BigDecimal discount;
+
+    @Column(name="Benefit")
+    private BigDecimal Benefit;
+
     @Column(name="quantity")
     private Integer quantity;
 

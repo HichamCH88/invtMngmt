@@ -8,12 +8,14 @@ import com.hicham.stockmanagment.exception.ErrorCode;
 import com.hicham.stockmanagment.exception.InvalidEntityException;
 import com.hicham.stockmanagment.model.Client;
 import com.hicham.stockmanagment.model.ClientOrder;
+import com.hicham.stockmanagment.model.CodeSeq.CodeSequence;
 import com.hicham.stockmanagment.model.Enums.InventoryTransactionType;
 import com.hicham.stockmanagment.model.Enums.OrderStatus;
 import com.hicham.stockmanagment.repository.ArticleRepository;
 import com.hicham.stockmanagment.repository.ClientOrderLineRepository;
 import com.hicham.stockmanagment.repository.ClientOrderRepository;
 import com.hicham.stockmanagment.repository.ClientRepository;
+import com.hicham.stockmanagment.repository.CodeSeq.CodeSequenceRepository;
 import com.hicham.stockmanagment.services.ClientOrderService;
 import com.hicham.stockmanagment.services.InventoryTransactionService;
 import org.slf4j.Logger;
@@ -22,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,6 +38,7 @@ public class ClientOrderServiceImp implements ClientOrderService {
     private ClientOrderRepository clientOrderRepository;
     private ArticleRepository articleRepository;
     private ClientOrderLineRepository clientOrderLineRepository;
+    private CodeSequenceRepository codeSequenceRepository;
 
     //Injects needed dependencies and repos on the constructor
     @Autowired
@@ -42,12 +46,14 @@ public class ClientOrderServiceImp implements ClientOrderService {
                                  ClientRepository clientRepository,
                                  ClientOrderRepository clientOrderRepository,
                                  ArticleRepository articleRepository,
-                                 ClientOrderLineRepository clientOrderLineRepository) {
+                                 ClientOrderLineRepository clientOrderLineRepository,
+                                 CodeSequenceRepository codeSequenceRepository) {
         this.inventoryTransactionService = inventoryTransactionService;
         this.clientRepository = clientRepository;
         this.clientOrderRepository = clientOrderRepository;
         this.articleRepository = articleRepository;
         this.clientOrderLineRepository = clientOrderLineRepository;
+        this.codeSequenceRepository=codeSequenceRepository;
     }
 
 
@@ -71,8 +77,8 @@ public class ClientOrderServiceImp implements ClientOrderService {
     //finalization and setting Client Order
         clientOrderDTO.setClient(ClientDTO.fromEntity(client.get()));
         clientOrderDTO.setOrderDate(Instant.now());
-        clientOrderDTO.setStatus(OrderStatus.onHold);//default value for testing// TODO!!remove this line
-        System.out.println(clientOrderDTO.getCode());
+        clientOrderDTO.setCode(generateClientOrderCode());
+        ///clientOrderDTO.setStatus(OrderStatus.onHold);//default value for testing// TODO!!remove this line
         ClientOrderDTO savedOrder =ClientOrderDTO.fromEntity(clientOrderRepository.save(ClientOrderDTO.toEntity(clientOrderDTO)));
 
      //Inserting Client order lines to database
@@ -150,6 +156,11 @@ public class ClientOrderServiceImp implements ClientOrderService {
         return clientOrderRepository.findByClientId(id).stream().map(ClientOrderDTO::fromEntity).toList();
     }
 
+    @Override
+    public List<ClientOrderDTO> findOrdersByOrderStatus(OrderStatus status){
+        return clientOrderRepository.findByStatus(status).stream().map(ClientOrderDTO::fromEntity).toList();
+    }
+
     public void createTransaction(ClientOrderLineDTO cltOrderLnDto){
         InventoryTransactionDTO invTransDto= InventoryTransactionDTO.builder().transactionDate(Instant.now())
                                                  .transactionSource(cltOrderLnDto.getClientOrder().getClient().getId())
@@ -159,5 +170,36 @@ public class ClientOrderServiceImp implements ClientOrderService {
                                                  .build();
         System.out.println(invTransDto.getArticle().getId());
         inventoryTransactionService.outTransaction(invTransDto);
+    }
+
+    public String generateClientOrderCode(){
+        String generatedCode;
+        CodeSequence currentSequenceCode=this.codeSequenceRepository.findByType(0);
+        LocalDate currentDate=LocalDate.now();
+        if(currentSequenceCode==null){
+
+            CodeSequence codeSequence= CodeSequence.builder()
+                    .type(0)
+                    .nextValue(2)
+                    .restValue(currentDate.getMonthValue())
+                    .build();
+            this.codeSequenceRepository.save(codeSequence);
+            generatedCode=Integer.toString(currentDate.getYear()-2000)+Integer.toString(currentDate.getMonthValue())+"0001";
+        }else{
+            if(currentDate.getMonthValue()==currentSequenceCode.getRestValue()){
+            generatedCode=Integer.toString(currentDate.getYear()-2000)
+                    +Integer.toString(currentDate.getMonthValue())
+                    +Integer.toString(currentSequenceCode.getNextValue());
+            currentSequenceCode.setNextValue(currentSequenceCode.getNextValue()+1);}
+            else{
+                generatedCode=Integer.toString(currentDate.getYear()-2000)
+                        +Integer.toString(currentDate.getMonthValue())
+                        +Integer.toString(1);
+                currentSequenceCode.setNextValue(1);
+                currentSequenceCode.setRestValue(currentDate.getMonthValue());
+            }
+            this.codeSequenceRepository.save(currentSequenceCode);
+        }
+        return generatedCode;
     }
 }

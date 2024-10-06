@@ -24,6 +24,10 @@ public class ClientOrderLineDTO {
 
     private BigDecimal sellingPrice;
 
+    private BigDecimal discount;
+
+    private BigDecimal benefit;
+
     private Integer quantity;
 
 
@@ -35,6 +39,8 @@ public class ClientOrderLineDTO {
                 .clientOrder(ClientOrderDTO.fromEntity(clientOrderLine.getClientOrder()))
                 .sellingPrice(clientOrderLine.getSellingPrice())
                 .quantity(clientOrderLine.getQuantity())
+                .discount(clientOrderLine.getDiscount())
+                .benefit(clientOrderLine.getBenefit())
                 .build();
     }
 
@@ -45,6 +51,8 @@ public class ClientOrderLineDTO {
                 .clientOrder(ClientOrderDTO.toEntity(clientOrderLineDTO.getClientOrder()))
                 .sellingPrice(clientOrderLineDTO.getSellingPrice())
                 .quantity(clientOrderLineDTO.getQuantity())
+                .discount(clientOrderLineDTO.getDiscount())
+                .Benefit(clientOrderLineDTO.getBenefit())
                 .build();
 
     }

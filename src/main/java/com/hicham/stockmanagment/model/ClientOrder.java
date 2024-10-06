@@ -5,6 +5,7 @@ import com.hicham.stockmanagment.model.Enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
@@ -25,6 +26,18 @@ public class ClientOrder extends AbstractEntity{
 
     @Column(name="Status")
     private OrderStatus status=OrderStatus.onHold;
+
+    @Column(name="Total")
+    private BigDecimal total;
+
+    @Column(name="DiscountOnItems")
+    private BigDecimal discountOnItems;
+
+    @Column(name="Discount")
+    private BigDecimal discount;
+
+    @Column(name="Benefit")
+    private BigDecimal benefit;
 
     @ManyToOne
     @JoinColumn(name = "clientId")

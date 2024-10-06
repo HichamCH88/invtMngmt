@@ -11,6 +11,7 @@ import jakarta.persistence.OneToMany;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 @Data
@@ -27,6 +28,14 @@ public class ClientOrderDTO {
 
     private OrderStatus status;
 
+    private BigDecimal discountOnItems;
+
+    private BigDecimal discount;
+
+    private BigDecimal total;
+
+    private BigDecimal benefit;
+
     private List<ClientOrderLineDTO> clientOrderLines;
 
 
@@ -37,6 +46,10 @@ public class ClientOrderDTO {
                 .orderDate(clientOrder.getOrderDate())
                 .client(ClientDTO.fromEntity(clientOrder.getClient()))
                 .status(clientOrder.getStatus())
+                .total(clientOrder.getTotal())
+                .discountOnItems(clientOrder.getDiscountOnItems())
+                .discount(clientOrder.getDiscount())
+                .benefit(clientOrder.getBenefit())
                 .build();
     }
     public static ClientOrder toEntity(ClientOrderDTO clientOrderDTO){
@@ -46,6 +59,10 @@ public class ClientOrderDTO {
                 .orderDate(clientOrderDTO.getOrderDate())
                 .client(ClientDTO.toEntity(clientOrderDTO.getClient()))
                 .status(clientOrderDTO.getStatus())
+                .total(clientOrderDTO.getTotal())
+                .discountOnItems(clientOrderDTO.getDiscountOnItems())
+                .discount(clientOrderDTO.getDiscount())
+                .benefit(clientOrderDTO.getBenefit())
                 .build();
         clientOrder.setId(clientOrderDTO.getId());
         return clientOrder;
