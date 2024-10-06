@@ -71,7 +71,8 @@ public class ClientOrderServiceImp implements ClientOrderService {
     //finalization and setting Client Order
         clientOrderDTO.setClient(ClientDTO.fromEntity(client.get()));
         clientOrderDTO.setOrderDate(Instant.now());
-        clientOrderDTO.setStatus(OrderStatus.onHold);//default value for testing TODO!!remove this line
+        clientOrderDTO.setStatus(OrderStatus.onHold);//default value for testing// TODO!!remove this line
+        System.out.println(clientOrderDTO.getCode());
         ClientOrderDTO savedOrder =ClientOrderDTO.fromEntity(clientOrderRepository.save(ClientOrderDTO.toEntity(clientOrderDTO)));
 
      //Inserting Client order lines to database
@@ -82,6 +83,7 @@ public class ClientOrderServiceImp implements ClientOrderService {
                     throw new EntityNotFoundException("Article"+CltOrderLn.getArticle().getId()+" doesnt exist");
                 }
                     CltOrderLn.setClientOrder(savedOrder);
+                    System.out.println(CltOrderLn.getArticle().getArticleCode());
                     clientOrderLineRepository.save(ClientOrderLineDTO.toEntity(CltOrderLn));
                     //done!!TODO save new transaction (type="clientOrder",quantity="CltOrderLn.getQuantity") and Update inventory quantity!
                     createTransaction(CltOrderLn);

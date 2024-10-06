@@ -25,16 +25,17 @@ public class SupplierController implements SupplierApi {
 
     @Override
     public List<SupplierDTO> findAll() {
-        return List.of();
+        return supplierService.findAll();
     }
 
     @Override
     public SupplierDTO findById(Integer id) {
-        return null;
+        return supplierService.findById(id);
     }
 
     @Override
     public SupplierDTO deleteById(Integer id) {
-        return null;
+         supplierService.deleteById(id);
+         return null;
     }
 }

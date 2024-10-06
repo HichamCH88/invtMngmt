@@ -3,6 +3,7 @@ package com.hicham.stockmanagment.services.imp;
 import com.hicham.stockmanagment.DTO.*;
 import com.hicham.stockmanagment.exception.EntityNotFoundException;
 import com.hicham.stockmanagment.exception.InvalidEntityException;
+import com.hicham.stockmanagment.model.Article;
 import com.hicham.stockmanagment.model.Enums.InventoryTransactionType;
 import com.hicham.stockmanagment.model.Enums.OrderStatus;
 import com.hicham.stockmanagment.model.SupplierOrder;
@@ -63,12 +64,19 @@ public class SupplierOrderServiceImp implements SupplierOrderService {
         SupplierOrder savedOrder =supplierOrderRepository.save(SupplierOrderDTO.toEntity(dto));
 
         dto.getSupplierOrderLines().forEach(solDto->{//TODO: check orderLine validation
-            if(articleService.findById(solDto.getArticle().getId())==null)//todo: find by article code
+            System.out.println("im here"+solDto.getArticle().getArticleCode());
+            ArticleDTO isFound =articleService.findByCodeArticle(solDto.getArticle().getArticleCode());
+            System.out.println(isFound);
+            if(isFound==null)//todo: find by article code
             {
                 //save the created article into our order line(because a new id is auto generated)
-                solDto.setArticle(articleService.saveNewArticle(solDto.getArticle(),solDto.getQuantity()));
-                log.warn("added new article"+solDto.getArticle().getArticleDesignation());
+                solDto.setArticle(articleService.save(solDto.getArticle()));
+                log.warn("added new article" + solDto.getArticle().getArticleDesignation());
+                System.out.println("Not found");
+                isFound=solDto.getArticle();
             }
+            this.articleService.updatePrice(solDto.getArticle());
+            solDto.setArticle(isFound);
             solDto.setSupplierOrder(SupplierOrderDTO.fromEntity(savedOrder));
             supplierOrderLineRepository.save(SupplierOrderLineDTO.toEntity(solDto));
             createTransaction(solDto);
@@ -110,6 +118,11 @@ public class SupplierOrderServiceImp implements SupplierOrderService {
         return supplierOrderLineRepository.findBySupplierOrderId(id).stream().map(SupplierOrderLineDTO::fromEntity).toList();
     }
 
+    @Override
+    public List<SupplierOrderDTO> getBySupplierName(String name) {
+        return this.supplierOrderRepository.findBySupplierName(name).stream().map(SupplierOrderDTO::fromEntity).toList();
+    }
+
 
     public void createTransaction(SupplierOrderLineDTO solDTO){
         InventoryTransactionDTO invTransDto= InventoryTransactionDTO.builder().transactionDate(Instant.now())
@@ -118,6 +131,8 @@ public class SupplierOrderServiceImp implements SupplierOrderService {
                 .transactionType(InventoryTransactionType.SupplierOrder)
                 .quantity(solDTO.getQuantity())
                 .build();
+
+                System.out.println(solDTO.getQuantity());
         inventoryTransactionService.inTransaction(invTransDto);
     }
 }

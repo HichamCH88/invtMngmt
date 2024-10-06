@@ -15,7 +15,7 @@ import java.util.List;
 public class Supplier extends AbstractEntity{
 
     @Column(name = "Name")
-    private String Name;
+    private String name;
 
     @Embedded
     private Address address;

@@ -34,7 +34,7 @@ public class SupplierDTO {
     }
 
     public static Supplier toEntity(SupplierDTO dto){
-        Supplier supplier = Supplier.builder().Name(dto.getName())
+        Supplier supplier = Supplier.builder().name(dto.getName())
                 .address(AddressDTO.toEntity(dto.getAddress()))
                 .email(dto.getEmail())
                 .phoneNum(dto.getPhoneNum())

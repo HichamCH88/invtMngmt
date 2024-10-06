@@ -2,14 +2,18 @@ package com.hicham.stockmanagment.services.imp;
 
 import com.hicham.stockmanagment.DTO.ArticleDTO;
 import com.hicham.stockmanagment.DTO.InventoryDTO;
+import com.hicham.stockmanagment.DTO.InventoryTransactionDTO;
 import com.hicham.stockmanagment.exception.EntityNotFoundException;
 import com.hicham.stockmanagment.exception.ErrorCode;
 import com.hicham.stockmanagment.exception.InvalidEntityException;
 import com.hicham.stockmanagment.model.Article;
 import com.hicham.stockmanagment.model.Inventory;
+import com.hicham.stockmanagment.model.InventoryTransaction;
 import com.hicham.stockmanagment.repository.ArticleRepository;
 import com.hicham.stockmanagment.repository.InventoryRepository;
 import com.hicham.stockmanagment.services.ArticleService;
+import com.hicham.stockmanagment.services.InventoryService;
+import com.hicham.stockmanagment.services.InventoryTransactionService;
 import com.hicham.stockmanagment.validator.ArticleValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,12 +32,14 @@ public class ArticleServiceImp implements ArticleService {
 
     private ArticleRepository articleRepository;
     private InventoryRepository inventoryRepository;
+    private InventoryTransactionService inventoryTransactionService;
 
     @Autowired//
-    public ArticleServiceImp(ArticleRepository articleRepository,InventoryRepository inventoryRepository)
+    public ArticleServiceImp(ArticleRepository articleRepository, InventoryRepository inventoryRepository, InventoryTransactionService inventoryService)
         {
             this.articleRepository=articleRepository;
             this.inventoryRepository=inventoryRepository;
+            this.inventoryTransactionService=inventoryService;
         }
 
     @Override
@@ -53,6 +59,8 @@ public class ArticleServiceImp implements ArticleService {
         }
         Article savedArticle=articleRepository.save(ArticleDTO.toEntity(dto));
         //add this article to our inventory default quantity value is 1
+        Inventory inv=new Inventory();inv.setArticle(savedArticle);inv.setQuantity(1);
+        inventoryRepository.save(inv);
         //saveArticleToInventory(ArticleDTO.fromEntity(savedArticle),1);
         return ArticleDTO.fromEntity(savedArticle);
     }
@@ -84,7 +92,6 @@ public class ArticleServiceImp implements ArticleService {
         }
         Article article=articleRepository.findByArticleCode(articleCode);
         if(article==null){
-            log.warn("Article does not exist");
             return null;
             //throw  new EntityNotFoundException("Article with code:"+articleCode+"not found",ErrorCode.ARTICLE_NOT_Found);
         }
@@ -103,17 +110,30 @@ public class ArticleServiceImp implements ArticleService {
 
     }
     public Inventory saveArticleToInventory(ArticleDTO dto,Integer qty){
+
       Inventory inventoryRaw=Inventory.builder()
                .article(ArticleDTO.toEntity(dto))
                .quantity(qty)
                .build();
       return inventoryRepository.save(inventoryRaw);
+
     }
     @Override
     public ArticleDTO saveNewArticle(ArticleDTO dto,Integer qty){
         ArticleDTO savedArticle=save(dto);
-        saveArticleToInventory(savedArticle,qty);
+        Inventory inventoryRaw =inventoryRepository.findInventoryByArticleArticleCode(dto.getArticleCode());
+
+        inventoryRaw.setQuantity(inventoryRaw.getQuantity()+qty);
+        inventoryRaw.setArticle(inventoryRaw.getArticle());
+        inventoryRepository.save(inventoryRaw);
         return savedArticle;
 
+    }
+
+    @Override
+    public ArticleDTO updatePrice(ArticleDTO article){
+        Article isFound=this.articleRepository.findByArticleCode(article.getArticleCode());
+        isFound.setBuyPrice(article.getBuyPrice());
+        return ArticleDTO.fromEntity(this.articleRepository.save(isFound));
     }
 }

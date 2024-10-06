@@ -41,7 +41,8 @@ public class CategoryController implements CategoryApi {
 
     @Override
     public CategoryDTO update(CategoryDTO categoryDTO) {
-        return null;
+        System.out.println("Updating step1");
+        return categoryService.update(categoryDTO);
     }
 
     @Override

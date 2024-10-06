@@ -35,6 +35,7 @@ public class AuthService {
         var jwtToken=jwtService.generateJwToken(user);
         return AuthResponseDTO.builder()
                 .jwToken(jwtToken)
+                .authCompleted(true)
                 .build();
 
     }
@@ -51,6 +52,7 @@ public class AuthService {
         return AuthResponseDTO
                 .builder()
                 .jwToken(jwtToken)
+                .authCompleted(true)
                 .build();
     }
 }

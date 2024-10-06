@@ -42,7 +42,15 @@ public class CategoryServiceImp implements CategoryService {
 
     @Override
     public CategoryDTO update(CategoryDTO categoryDTO) {
-        return null;
+        System.out.println("updating category");
+        Optional<Category> categoryToUpdate=this.categoryRepository.findById(categoryDTO.getId());
+        if(categoryToUpdate.isEmpty()) {
+            throw new EntityNotFoundException("Cant update unFound categories");
+        }else{
+            categoryToUpdate.get().setCategoryCode(categoryDTO.getCategoryCode());
+            categoryToUpdate.get().setCategoryDesignation(categoryDTO.getCategoryDesignation());
+            return CategoryDTO.fromEntity(this.categoryRepository.save(categoryToUpdate.get()));
+        }
     }
 
     @Override

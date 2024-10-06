@@ -34,4 +34,9 @@ public class SupplierOrderController implements SupplierOrderApi {
     public SupplierOrderDTO findById(Integer id) {
         return supplierOrderService.findById(id);
     }
+
+    @Override
+    public List<SupplierOrderDTO> findBySupplierName(String name) {
+        return supplierOrderService.getBySupplierName(name);
+    }
 }

@@ -29,6 +29,6 @@ public class SupplierOrder extends AbstractEntity{
     @JoinColumn(name="supplierId")
     private Supplier supplier;
 
-    @OneToMany(mappedBy = "supplierOrder")
+    @OneToMany(mappedBy = "supplierOrder",cascade = CascadeType.ALL)
     private List<SupplierOrderLine> supplierOrderLines;
 }

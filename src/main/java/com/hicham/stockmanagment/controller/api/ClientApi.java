@@ -20,7 +20,7 @@ public interface ClientApi {
     @GetMapping(value = Consts.APP_ROOT+"/Client/all")
     List<ClientDTO> findAll();
 
-    @DeleteMapping(value =Consts.APP_ROOT+ "/Client/{id}")
+    @DeleteMapping(value =Consts.APP_ROOT+"/Client/{id}")
     void delete(@PathVariable("id") Integer id);
 
 }

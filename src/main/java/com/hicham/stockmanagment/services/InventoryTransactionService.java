@@ -2,9 +2,11 @@ package com.hicham.stockmanagment.services;
 
 import com.hicham.stockmanagment.DTO.InventoryTransactionDTO;
 import com.hicham.stockmanagment.model.InventoryTransaction;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+
 
 public interface InventoryTransactionService {
 
@@ -19,5 +21,7 @@ public interface InventoryTransactionService {
     InventoryTransactionDTO outTransaction(InventoryTransactionDTO dto);
 
     InventoryTransactionDTO modifyTrans(InventoryTransactionDTO dto);
+
+
 
 }

@@ -39,6 +39,7 @@ public class SupplierServiceImp implements SupplierService {
 
     @Override
     public List<SupplierDTO> findAll() {
+
         return supplierRepository.findAll().stream().map(SupplierDTO::fromEntity).toList();
     }
 

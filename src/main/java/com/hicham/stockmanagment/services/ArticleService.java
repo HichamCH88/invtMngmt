@@ -1,6 +1,7 @@
 package com.hicham.stockmanagment.services;
 
 import com.hicham.stockmanagment.DTO.ArticleDTO;
+import com.hicham.stockmanagment.model.Article;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface ArticleService {
     void delete(Integer id);
 
     ArticleDTO saveNewArticle(ArticleDTO dto,Integer qty);
+
+    ArticleDTO updatePrice(ArticleDTO articleDTO);
 }

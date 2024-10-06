@@ -40,12 +40,11 @@ public class InventoryTransactionServiceImp implements InventoryTransactionServi
 
     @Override
     public InventoryTransactionDTO create(InventoryTransactionDTO dto) {
-        //if dto=null throw invalid exception
-        //define invTrans.type(In if SupplierOrder/out if ClientOrder)
-        //isArticleExist? true:
-           //build InvTransDto
-           //call InventoryService and update Article quantity
-        return null;
+
+        return InventoryTransactionDTO
+                .fromEntity(
+                        this.invMvRepository.save(InventoryTransactionDTO.toEntity(dto))
+                );
     }
 
     @Override
@@ -54,7 +53,8 @@ public class InventoryTransactionServiceImp implements InventoryTransactionServi
             log.error("Invalid transaction");
             throw new InvalidEntityException("Invalid transaction");
         }
-        updateInventoryQTY(dto.getArticle().getId(),dto.getQuantity());
+        System.out.println(dto.getArticle().getArticleCode());
+        updateInventoryQTY(dto.getArticle().getArticleCode(),dto.getQuantity());
         return InventoryTransactionDTO.fromEntity(invMvRepository.save(InventoryTransactionDTO.toEntity(dto)));
     }
 
@@ -65,7 +65,7 @@ public class InventoryTransactionServiceImp implements InventoryTransactionServi
             log.error("Invalid transaction");
             throw new InvalidEntityException("Invalid transaction");
         }
-        updateInventoryQTY(dto.getArticle().getId(),-dto.getQuantity());
+        updateInventoryQTY(dto.getArticle().getArticleCode(),-dto.getQuantity());
         return InventoryTransactionDTO.fromEntity(invMvRepository.save(InventoryTransactionDTO.toEntity(dto)));
     }
 
@@ -74,11 +74,13 @@ public class InventoryTransactionServiceImp implements InventoryTransactionServi
         return null;
     }
 
-    private void updateInventoryQTY(Integer articleId,Integer transQTY){
-            Inventory inventoryRaw =inventoryRepository.findInventoryByArticleId(articleId);
+    private void updateInventoryQTY(String articleCode,Integer transQTY){
+            Inventory inventoryRaw =inventoryRepository.findInventoryByArticleArticleCode(articleCode);
+
             inventoryRaw.setQuantity(inventoryRaw.getQuantity()+transQTY);
             inventoryRaw.setArticle(inventoryRaw.getArticle());
             inventoryRepository.save(inventoryRaw);
+
 
     }
 }

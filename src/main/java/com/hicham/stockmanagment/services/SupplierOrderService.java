@@ -22,4 +22,6 @@ public interface SupplierOrderService {
     //get list of items in given order
     public List<SupplierOrderLineDTO> getOrderLines(Integer id);
 
+    public List<SupplierOrderDTO> getBySupplierName(String name);
+
 }

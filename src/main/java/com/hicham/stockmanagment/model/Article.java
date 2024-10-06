@@ -38,13 +38,13 @@ public class Article extends AbstractEntity{
     @OneToOne(mappedBy = "article",cascade = CascadeType.ALL)
     private Inventory inventory;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "article")
+    @OneToMany(mappedBy = "article",cascade = CascadeType.ALL)
     private List<InventoryTransaction> inventoryTransactions;
 
     @OneToMany(mappedBy = "article")
     private List<ClientOrderLine> clientOrderLines;
 
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article",cascade = CascadeType.ALL)
     private List<SupplierOrderLine> supplierOrderLines;
 
     @OneToMany(mappedBy = "article")

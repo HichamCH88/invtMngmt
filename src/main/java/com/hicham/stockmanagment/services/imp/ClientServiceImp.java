@@ -57,7 +57,6 @@ public class ClientServiceImp implements ClientService {
 
     @Override
     public List<ClientDTO> findAll() {
-        clientRepository.findAll().forEach(System.out::println);
         return clientRepository.findAll().stream().map(ClientDTO::fromEntity).toList();
     }
 

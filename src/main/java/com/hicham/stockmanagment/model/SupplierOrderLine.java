@@ -14,11 +14,11 @@ import java.math.BigDecimal;
 @Table(name="SupplierOrderLine")
 public class SupplierOrderLine extends AbstractEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="articleId")
     private Article article;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="supplierOrderId")
     private SupplierOrder supplierOrder;
 

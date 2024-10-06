@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface InventoryRepository extends JpaRepository<Inventory,Integer> {
 
     Inventory findInventoryByArticleId(Integer articleId);
+    Inventory findInventoryByArticleArticleCode(String articleCode);
 }
