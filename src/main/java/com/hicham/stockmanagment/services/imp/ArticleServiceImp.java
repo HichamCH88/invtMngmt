@@ -105,6 +105,11 @@ public class ArticleServiceImp implements ArticleService {
     }
 
     @Override
+    public List<ArticleDTO> findByCategory(int categoryID) {
+        return this.articleRepository.findByCategoryId(categoryID).stream().map(ArticleDTO::fromEntity).collect(Collectors.toList());
+    }
+
+    @Override
     public void delete(Integer id) {
         articleRepository.deleteById(id);
 

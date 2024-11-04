@@ -38,6 +38,11 @@ public class ArticleController implements ArticleApi {
     }
 
     @Override
+    public List<ArticleDTO> findByCategory(int categoryID) {
+        return  this.articleService.findByCategory(categoryID);
+    }
+
+    @Override
     public void deleteArticle(int articleID) {
         this.articleService.delete(articleID);
     }

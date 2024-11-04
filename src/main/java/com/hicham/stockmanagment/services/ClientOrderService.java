@@ -5,6 +5,7 @@ import com.hicham.stockmanagment.DTO.ClientOrderLineDTO;
 import com.hicham.stockmanagment.model.Enums.OrderStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -26,4 +27,8 @@ public interface ClientOrderService {
 
 
     List<ClientOrderDTO> findOrdersByOrderStatus(OrderStatus status);
+
+    String generateClientOrderCode();
+
+    BigDecimal getTotalByClientId(Integer clientId);
 }

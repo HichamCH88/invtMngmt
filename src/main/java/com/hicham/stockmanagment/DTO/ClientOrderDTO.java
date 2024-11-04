@@ -34,6 +34,8 @@ public class ClientOrderDTO {
 
     private BigDecimal total;
 
+    private BigDecimal payment;
+
     private BigDecimal benefit;
 
     private List<ClientOrderLineDTO> clientOrderLines;

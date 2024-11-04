@@ -35,7 +35,6 @@ public class ClientController implements ClientApi {
 
     @Override
     public ClientDTO save(ClientDTO clientDTO) {
-        System.out.println(clientDTO.getFirstName()+clientDTO.getAddress());
         return this.clientService.save(clientDTO);
     }
 }

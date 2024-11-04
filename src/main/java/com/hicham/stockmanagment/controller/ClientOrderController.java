@@ -8,6 +8,7 @@ import com.hicham.stockmanagment.services.ClientOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -59,5 +60,15 @@ public class ClientOrderController implements ClientOrderApi {
     @Override
     public List<ClientOrderDTO> findByOrderStatus(OrderStatus status) {
         return this.clientOrderService.findOrdersByOrderStatus(status);
+    }
+
+    @Override
+    public String generateOrderCode() {
+        return this.clientOrderService.generateClientOrderCode();
+    }
+
+    @Override
+    public BigDecimal getTotalByOrderId(Integer id) {
+        return this.clientOrderService.getTotalByClientId(id);
     }
 }

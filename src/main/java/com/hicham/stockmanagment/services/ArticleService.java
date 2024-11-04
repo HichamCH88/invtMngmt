@@ -20,4 +20,6 @@ public interface ArticleService {
     ArticleDTO saveNewArticle(ArticleDTO dto,Integer qty);
 
     ArticleDTO updatePrice(ArticleDTO articleDTO);
+
+    List<ArticleDTO> findByCategory(int categoryID);
 }

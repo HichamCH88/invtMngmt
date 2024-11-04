@@ -31,8 +31,7 @@ public class ClientServiceImp implements ClientService {
     public ClientDTO save(ClientDTO clientDTO) {
         List<String> errors=new ArrayList<>();//= ClientValidator.validate(clientDTO);
         if(!errors.isEmpty()){
-            log.error("Client is invalid");
-            errors.forEach(System.out::println);
+            log.error("Client is invalid" + clientDTO.getAddress().getAddress1());
             throw new InvalidEntityException("client is invalid", ErrorCode.CLIENT_NOT_Found,errors);
         }
         return ClientDTO.fromEntity(clientRepository.save(ClientDTO.toEntity(clientDTO))) ;

@@ -6,6 +6,7 @@ import com.hicham.stockmanagment.Shared.Consts;
 import com.hicham.stockmanagment.model.Enums.OrderStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static com.hicham.stockmanagment.Shared.Consts.APP_ROOT;
@@ -36,4 +37,10 @@ public interface ClientOrderApi {
 
     @GetMapping(value = APP_ROOT+"clientorder/status/{status}")
     List<ClientOrderDTO> findByOrderStatus(@PathVariable("status")OrderStatus status);
+
+    @GetMapping(value = APP_ROOT+ "/clientorder/generateCode")
+    String generateOrderCode();
+
+    @GetMapping(value = APP_ROOT+"/clientorder/clientTotal/{id}")
+    BigDecimal getTotalByOrderId(@PathVariable("id") Integer id);
 }

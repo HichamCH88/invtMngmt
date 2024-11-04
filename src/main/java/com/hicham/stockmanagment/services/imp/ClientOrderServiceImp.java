@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
@@ -161,17 +162,7 @@ public class ClientOrderServiceImp implements ClientOrderService {
         return clientOrderRepository.findByStatus(status).stream().map(ClientOrderDTO::fromEntity).toList();
     }
 
-    public void createTransaction(ClientOrderLineDTO cltOrderLnDto){
-        InventoryTransactionDTO invTransDto= InventoryTransactionDTO.builder().transactionDate(Instant.now())
-                                                 .transactionSource(cltOrderLnDto.getClientOrder().getClient().getId())
-                                                 .article(cltOrderLnDto.getArticle())
-                                                 .transactionType(InventoryTransactionType.ClientOrder)
-                                                 .quantity(cltOrderLnDto.getQuantity())
-                                                 .build();
-        System.out.println(invTransDto.getArticle().getId());
-        inventoryTransactionService.outTransaction(invTransDto);
-    }
-
+    @Override
     public String generateClientOrderCode(){
         String generatedCode;
         CodeSequence currentSequenceCode=this.codeSequenceRepository.findByType(0);
@@ -187,10 +178,10 @@ public class ClientOrderServiceImp implements ClientOrderService {
             generatedCode=Integer.toString(currentDate.getYear()-2000)+Integer.toString(currentDate.getMonthValue())+"0001";
         }else{
             if(currentDate.getMonthValue()==currentSequenceCode.getRestValue()){
-            generatedCode=Integer.toString(currentDate.getYear()-2000)
-                    +Integer.toString(currentDate.getMonthValue())
-                    +Integer.toString(currentSequenceCode.getNextValue());
-            currentSequenceCode.setNextValue(currentSequenceCode.getNextValue()+1);}
+                generatedCode=Integer.toString(currentDate.getYear()-2000)
+                        +Integer.toString(currentDate.getMonthValue())
+                        +Integer.toString(currentSequenceCode.getNextValue());
+                currentSequenceCode.setNextValue(currentSequenceCode.getNextValue()+1);}
             else{
                 generatedCode=Integer.toString(currentDate.getYear()-2000)
                         +Integer.toString(currentDate.getMonthValue())
@@ -202,4 +193,31 @@ public class ClientOrderServiceImp implements ClientOrderService {
         }
         return generatedCode;
     }
+
+    @Override
+    public BigDecimal getTotalByClientId(Integer clientId){
+        BigDecimal[] total = { BigDecimal.valueOf(0) };
+        total[0]=BigDecimal.ZERO;
+        findOrdersByClientId(clientId).forEach(o->{
+
+            BigDecimal orderTotal = o.getTotal() != null ? o.getTotal() : BigDecimal.ZERO;
+            total[0]=total[0].add(orderTotal);
+        });
+        System.out.println(total[0]);
+        return total[0];
+    }
+
+
+    public void createTransaction(ClientOrderLineDTO cltOrderLnDto){
+        InventoryTransactionDTO invTransDto= InventoryTransactionDTO.builder().transactionDate(Instant.now())
+                                                 .transactionSource(cltOrderLnDto.getClientOrder().getClient().getId())
+                                                 .article(cltOrderLnDto.getArticle())
+                                                 .transactionType(InventoryTransactionType.ClientOrder)
+                                                 .quantity(cltOrderLnDto.getQuantity())
+                                                 .build();
+        System.out.println(invTransDto.getArticle().getId());
+        inventoryTransactionService.outTransaction(invTransDto);
+    }
+
+
 }

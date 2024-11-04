@@ -30,6 +30,9 @@ public class ClientOrder extends AbstractEntity{
     @Column(name="Total")
     private BigDecimal total;
 
+    @Column(name="Payement")
+    private BigDecimal payment;
+
     @Column(name="DiscountOnItems")
     private BigDecimal discountOnItems;
 

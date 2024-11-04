@@ -25,4 +25,7 @@ public interface ArticleApi {
     @DeleteMapping(value=Consts.APP_ROOT+"/articles/{id}")
     void deleteArticle(@PathVariable("id")int articleID);
 
+    @GetMapping(value = Consts.APP_ROOT+"/articles/category/{id}")
+    List<ArticleDTO> findByCategory(@PathVariable("id")int categoryID);
+
 }

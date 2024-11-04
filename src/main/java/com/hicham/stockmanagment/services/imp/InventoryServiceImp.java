@@ -51,7 +51,7 @@ public class InventoryServiceImp implements InventoryService {
         }
         Integer oldQTY=invRaw.getQuantity();
         invRaw.setQuantity(dto.getQuantity());
-
+        System.out.println(invRaw.getQuantity());/////---------------
         InventoryDTO savedInvRaw =InventoryDTO.fromEntity(inventoryRepository.save(invRaw));
 
         InventoryTransactionDTO inventoryTransactionDTO=InventoryTransactionDTO.builder()
